@@ -11,11 +11,13 @@ import SectionThree from "./sections/sections-three";
 import type { SectionThreeData } from "./sections/sections-three";
 import FinalReport from "./sections/final-report";
 import EditAll from "./sections/edit-all";
+import IllegalFireworkWarning from "./illegal-firework-warning";
 
 const TOTAL_STEPS = 3;
 
 const IllegalFirework = () => {
   const navigate = useNavigate();
+  const [showWarning, setShowWarning] = useState(true);
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -56,6 +58,10 @@ const IllegalFirework = () => {
       setShowSuccess(true);
     }, 1000);
   };
+
+  if (showWarning) {
+    return <IllegalFireworkWarning onAgree={() => setShowWarning(false)} />;
+  }
 
   if (showSuccess) {
     return (

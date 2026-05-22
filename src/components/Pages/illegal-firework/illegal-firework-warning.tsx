@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import AlertNavigation from "../../shared/alert-navigation/alert-navigation";
 
-const IllegalFireworkWarning = () => {
-  const navigate = useNavigate();
+interface IllegalFireworkWarningProps {
+  onAgree: () => void;
+}
 
+const IllegalFireworkWarning = ({ onAgree }: IllegalFireworkWarningProps) => {
   return (
     <div className="container mt-4">
       <h4 className="fw-bold mb-4">Illegal Fireworks</h4>
@@ -41,7 +42,7 @@ const IllegalFireworkWarning = () => {
         ]}
         primaryText="I Understand And Agree"
         secondaryText=""
-        onPrimary={() => navigate("/illegal-fireworks")}
+        onPrimary={onAgree}
         onSecondary={() => {}}
       />
     </div>
