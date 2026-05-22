@@ -1,0 +1,117 @@
+.ci-title {
+  border-bottom: 2px solid #d4a017;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.ci-back-outline-btn {
+  background: #fff;
+  color: #198bb3;
+  border: 2px solid #198bb3;
+  border-radius: 4px;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ci-back-outline-btn:hover {
+  background: #e8f7fb;
+}
+
+.ci-confirm-box {
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+/* Cart color options */
+.ci-color-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.ci-color-option:hover {
+  border-color: #198bb3;
+}
+
+.ci-color-selected {
+  border-color: #198bb3;
+  background: #f0fafd;
+}
+
+.ci-color-swatch {
+  width: 28px;
+  height: 20px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Issues + cart diagram row */
+.ci-issues-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ci-issues-list {
+  flex: 0 0 auto;
+}
+
+/* Cart diagram */
+.ci-cart-img {
+  width: 180px;
+  height: 100%;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-top: -4px;
+}
+
+/* File upload */
+.ci-upload-area {
+  border: 1.5px dashed #198bb3;
+  border-radius: 6px;
+  background: #f0fafd;
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ci-upload-area:hover,
+.ci-upload-drag {
+  background: #ddf2f9;
+}
+
+.ci-upload-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+/* File chip */
+.ci-file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f7fb;
+  border: 1px solid #198bb3;
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+
+.ci-file-remove {
+  font-size: 16px;
+  color: #198bb3;
+  cursor: pointer;
+  line-height: 1;
+}

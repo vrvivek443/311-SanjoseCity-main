@@ -1,0 +1,71 @@
+.ss-details-card {
+    background: #f2f2f2;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+
+.ss-details-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ss-details-card td {
+    padding: 6px 0;
+    vertical-align: top;
+}
+
+.ss-details-card td:first-child {
+    font-weight: 600;
+    width: 180px;
+    white-space: nowrap;
+}
+
+.ss-exit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+    color: #198bb3;
+    border: 1.5px solid #198bb3;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.ss-exit-btn:hover {
+    background: #e8f4f8;
+}
+
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-box {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #198bb3;
+    border-radius: 50%;
+    animation: ss-spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes ss-spin {
+    to { transform: rotate(360deg); }
+}

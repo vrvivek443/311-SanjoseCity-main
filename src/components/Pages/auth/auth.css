@@ -1,0 +1,231 @@
+.auth-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px 60px;
+  min-height: 100%;
+}
+
+/* Card */
+.auth-card {
+  background: #ffffff;
+  border: 1px solid #e5e4e7;
+  border-radius: 10px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0 4px 16px;
+}
+
+/* Wider variant for the signup form */
+.auth-card-wide {
+  max-width: 560px;
+}
+
+/* Logo row */
+.auth-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.auth-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.auth-brand-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #08060d;
+  margin: 0;
+}
+
+/* Headings */
+.auth-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #08060d;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.auth-subtext {
+  font-size: 14px;
+  color: #6b6375;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Clickable links inside text */
+.auth-link {
+  color: #0f766e;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.auth-link:hover {
+  color: #0a5a53;
+}
+
+/* Labels */
+.auth-label {
+  display: block;
+  font-size: 14px;
+  color: #08060d;
+  margin-bottom: 4px;
+}
+
+/* Input overrides */
+.auth-input {
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  height: 42px;
+  color: #08060d;
+  transition: border-color 0.2s;
+}
+
+.auth-input:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+  outline: none;
+}
+
+/* Password wrapper — positions the toggle icon inside the field */
+.auth-password-wrapper {
+  position: relative;
+}
+
+.auth-password-wrapper .auth-input {
+  padding-right: 44px;
+  width: 100%;
+}
+
+.auth-toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  color: #6b6375;
+  display: flex;
+  align-items: center;
+}
+
+.auth-toggle-password i {
+  font-size: 18px;
+}
+
+.auth-toggle-password:hover i {
+  color: #0f766e;
+}
+
+/* Forgot password link */
+.auth-forgot-row {
+  text-align: right;
+  margin-bottom: 20px;
+  margin-top: -4px;
+}
+
+/* Validation errors */
+.auth-error-msg {
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Primary action button */
+.auth-primary-btn {
+  width: 100%;
+  height: 44px;
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.auth-primary-btn:hover {
+  background: #0a5a53;
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e4e7;
+}
+
+/* Secondary (ghost) button */
+.auth-secondary-btn {
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  color: #0f766e;
+  border: 1.5px solid #0f766e;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.auth-secondary-btn:hover {
+  background: rgba(15, 118, 110, 0.06);
+}
+
+/* select inherits same look as inputs */
+.auth-card select.auth-input {
+  height: 42px;
+  appearance: auto;
+}
+
+/* Side-by-side button row (Return Home | Sign Up) */
+.auth-btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-btn-row .auth-secondary-btn,
+.auth-btn-row .auth-primary-btn {
+  flex: 1;
+}
+
+/* Auth-level error banner */
+.auth-alert-error {
+  background: #fff0f0;
+  border: 1px solid #f5c6cb;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}

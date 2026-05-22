@@ -1,0 +1,208 @@
+.page-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Sidebar layout */
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Menu scroll */
+.metismenu {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Footer pinned at bottom */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ✅ Buttons (uniform size) */
+.btn {
+  width: 100%;
+  height: 42px;              /* fixed equal height */
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  display: flex;             /* align icon + text */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  box-sizing: border-box;
+}
+
+/* Icon alignment */
+.btn i {
+  font-size: 18px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Prevent text wrapping */
+.btn-text {
+  white-space: nowrap;
+}
+
+/* Colors */
+.login-btn {
+  background: #0f766e;
+  color: white;
+}
+
+.signup-btn {
+  background: #0f766e;
+  color: white;
+}
+
+/* ✅ When sidebar is collapsed */
+.wrapper.toggled .btn {
+  justify-content: center;   /* center icon */
+  padding: 0;
+}
+
+/* Hide text */
+.wrapper.toggled .btn-text {
+  display: none;
+}
+
+/* Adjust spacing when collapsed */
+.wrapper.toggled .sidebar-footer {
+  padding: 10px 5px;
+}
+
+/* Page title */
+.section-title {
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* Grid layout like dashboard */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 25px;
+  padding: 10px;
+}
+
+/* Tile styles */
+.tile {
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tile-icon {
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  background: #2f6f7e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.tile-icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.tile-label {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #333;
+}
+
+.tile:hover {
+  transform: scale(1.05);
+}
+
+/* FAQ section styles */
+.faq-list {
+  margin-top: 20px;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+}
+
+.faq-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #007bff;  /* Blue text */
+  margin-bottom: 20px;
+}
+
+.faq-description {
+  margin-top: 5px;
+  color: #555;
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.show-all-btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff; /* Blue color */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.show-all-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Logged-in user row in sidebar */
+.sidebar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar-user-icon {
+  font-size: 22px;
+  color: #0f766e;
+  min-width: 20px;
+  text-align: center;
+}
+
+.sidebar-user-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
