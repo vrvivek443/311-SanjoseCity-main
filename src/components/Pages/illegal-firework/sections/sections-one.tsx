@@ -75,6 +75,7 @@ const SectionOne: React.FC<SectionOneProps> = ({ data, onChange, onNext }) => {
               setErrors((prev: any) => ({ ...prev, incidentDate: "" }));
             }
           }}
+          onChangeRaw={(e) => e.preventDefault()}
           dateFormat="MM/dd/yyyy"
           placeholderText="mm/dd/yyyy"
           className="form-control"

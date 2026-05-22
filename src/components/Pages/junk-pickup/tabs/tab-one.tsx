@@ -63,7 +63,7 @@ const TabOne = ({ data, onChange, onNext }: TabOneProps) => {
             onChange={(e) => set("ack1", e.target.checked)}
           />
           <label className="form-check-label">
-            Only <span className="jp-highlight">12 items</span> can be picked up per request.
+            Only 12 items can be picked up per request.
           </label>
         </div>
 

@@ -200,10 +200,18 @@ const OtherIssues = () => {
     <>
       <div className="container mt-3 mb-4">
         {/* Header */}
-        <h4 className="fw-bold mb-4">Your Report</h4>
+        <h4 className="fw-bold mb-4 mc-title">Your Report</h4>
         <p className="text-muted">
           This is for reporting and finding information about all other issues.
-          Report concerns on private property here. Call 911 for emergencies.
+          Report concerns on{" "}
+          <a
+            href="https://www.sanjoseca.gov/your-government/departments-offices/planning-building-code-enforcement/code-enforcement/request-service-check-status/code-service-request-form"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            private property here
+          </a>
+          . Call 911 for emergencies.
         </p>
 
         {/* Photo Upload Section */}

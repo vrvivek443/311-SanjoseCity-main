@@ -22,7 +22,11 @@ const JunkPickup = () => {
     unit: "",
     phone: "",
   });
-  const [tabTwoQuantities, setTabTwoQuantities] = useState<Record<string, number>>({});
+  const [tabTwoQuantities, setTabTwoQuantities] = useState<Record<string, number>>(
+    Object.fromEntries([...["couch","mattress","boxspring","chair","wood","tires","carpet","table"].map(k => [k, 0])])
+  );
+  const [tabThreePosition, setTabThreePosition] = useState({ lat: 37.3382, lng: -121.8863 });
+  const [tabFourDate, setTabFourDate] = useState("");
 
   if (showSuccess) {
     return (
@@ -109,16 +113,17 @@ const JunkPickup = () => {
 
       {step === 2 && (
         <TabTwo
+          quantities={tabTwoQuantities}
+          onChange={setTabTwoQuantities}
           onBack={() => setStep(1)}
-          onNext={(quantities) => {
-            setTabTwoQuantities(quantities);
-            setStep(3);
-          }}
+          onNext={() => setStep(3)}
         />
       )}
 
       {step === 3 && (
         <TabThree
+          position={tabThreePosition}
+          onPositionChange={setTabThreePosition}
           onBack={() => setStep(2)}
           onNext={() => setStep(4)}
         />
@@ -128,6 +133,8 @@ const JunkPickup = () => {
         <TabFour
           tabOneData={tabOneData}
           quantities={tabTwoQuantities}
+          selectedDate={tabFourDate}
+          onDateChange={setTabFourDate}
           onBack={() => setStep(3)}
           onSubmit={() => {
             setShowFeedbackModal(true);

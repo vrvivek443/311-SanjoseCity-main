@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 interface TabThreeProps {
+  position: { lat: number; lng: number };
+  onPositionChange: (pos: { lat: number; lng: number }) => void;
   onBack: () => void;
   onNext: () => void;
 }
@@ -11,14 +12,9 @@ const containerStyle = {
   height: "300px",
 };
 
-const TabThree = ({ onBack, onNext }: TabThreeProps) => {
-  const [position, setPosition] = useState({
-    lat: 37.3382,
-    lng: -121.8863,
-  });
-
+const TabThree = ({ position, onPositionChange, onBack, onNext }: TabThreeProps) => {
   const handleDragEnd = (e: any) => {
-    setPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    onPositionChange({ lat: e.latLng.lat(), lng: e.latLng.lng() });
   };
 
   return (

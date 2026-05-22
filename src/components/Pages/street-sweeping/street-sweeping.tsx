@@ -166,7 +166,7 @@ const StreetSweeping = () => {
           <p className="fw-semibold mb-3" style={{ fontSize: "14px" }}>
             Please provide your email address if you would like to subscribe
             for email notifications one day prior to your scheduled street
-            sweeping.
+            sweeping.<span className="text-danger"> *</span>
           </p>
 
           <input

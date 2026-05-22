@@ -148,8 +148,9 @@ const TabOne = ({ data, onChange, onNext }: TabOneProps) => {
         <DatePicker
           selected={data.escrowDate}
           onChange={(date) => set("escrowDate", date)}
+          onChangeRaw={(e) => e.preventDefault()}
           dateFormat="MM/dd/yyyy"
-          placeholderText="MM/DD/YYYY"
+          placeholderText="mm/dd/yyyy"
           minDate={new Date()}
           className="form-control"
           wrapperClassName="d-block"

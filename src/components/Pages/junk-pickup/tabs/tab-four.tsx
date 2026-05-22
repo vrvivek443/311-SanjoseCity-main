@@ -1,10 +1,11 @@
-import { useState } from "react";
 import type { TabOneData } from "./tab-one";
 import { ITEMS } from "./tab-two";
 
 interface TabFourProps {
   tabOneData: TabOneData;
   quantities: Record<string, number>;
+  selectedDate: string;
+  onDateChange: (date: string) => void;
   onBack: () => void;
   onSubmit: () => void;
 }
@@ -28,8 +29,7 @@ const formatDate = (date: Date) =>
     day: "numeric",
   });
 
-const TabFour = ({ tabOneData, quantities, onBack, onSubmit }: TabFourProps) => {
-  const [selectedDate, setSelectedDate] = useState("");
+const TabFour = ({ tabOneData, quantities, selectedDate, onDateChange, onBack, onSubmit }: TabFourProps) => {
 
   const mondays = getUpcomingMondays();
   const dateOptions = [
@@ -77,7 +77,7 @@ const TabFour = ({ tabOneData, quantities, onBack, onSubmit }: TabFourProps) => 
               className="form-check-input"
               name="preferredDate"
               checked={selectedDate === option}
-              onChange={() => setSelectedDate(option)}
+              onChange={() => onDateChange(option)}
             />
             <label className="form-check-label" style={{ fontSize: "14px" }}>
               {option}

@@ -77,14 +77,13 @@ const SEARCH_CATALOG = [
 ];
 
 interface TabTwoProps {
+  quantities: Record<string, number>;
+  onChange: (quantities: Record<string, number>) => void;
   onBack: () => void;
-  onNext: (quantities: Record<string, number>) => void;
+  onNext: () => void;
 }
 
-const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
-  const [quantities, setQuantities] = useState<Record<string, number>>(
-    Object.fromEntries(ITEMS.map((i) => [i.key, 0]))
-  );
+const TabTwo = ({ quantities, onChange, onBack, onNext }: TabTwoProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const total = Object.values(quantities).reduce((sum, q) => sum + q, 0);
@@ -93,7 +92,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
     const next = (quantities[key] ?? 0) + delta;
     if (next < 0) return;
     if (total + delta > 12) return;
-    setQuantities((prev) => ({ ...prev, [key]: next }));
+    onChange({ ...quantities, [key]: next });
   };
 
   const suggestions = searchQuery.trim().length > 0
@@ -104,7 +103,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
 
   const addCustomItem = (label: string) => {
     const key = `custom:${label}`;
-    setQuantities((prev) => ({ ...prev, [key]: (prev[key] ?? 0) + 1 }));
+    onChange({ ...quantities, [key]: (quantities[key] ?? 0) + 1 });
     setSearchQuery("");
   };
 
@@ -113,7 +112,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
   return (
     <div>
       <p className="fw-semibold mb-1">
-        What items did you want picked up?<span className="text-danger">*</span>
+        What items did you want picked up?
       </p>
       <p className="text-muted mb-3" style={{ fontSize: "13px" }}>
         Only 12 items can be picked up per request.
@@ -227,7 +226,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
         <button className="ep-back-btn w-50" onClick={onBack}>
           Go Back
         </button>
-        <button className="next-btn w-50" onClick={() => onNext(quantities)}>
+        <button className="next-btn w-50" onClick={onNext}>
           Next
         </button>
       </div>

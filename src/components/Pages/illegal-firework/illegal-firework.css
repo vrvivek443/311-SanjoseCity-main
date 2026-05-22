@@ -33,3 +33,9 @@
     align-items: center;
     justify-content: center;
 }
+
+.mc-title {
+  border-bottom: 2px solid #d4a017;
+  display: inline-block;
+  padding-bottom: 4px;
+}

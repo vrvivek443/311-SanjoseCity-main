@@ -16,8 +16,10 @@ export const CART_COLORS = [
 ];
 
 interface TabTwoProps {
+  data: TabTwoData;
+  onChange: (data: TabTwoData) => void;
   onBack: () => void;
-  onNext: (data: TabTwoData) => void;
+  onNext: () => void;
 }
 
 const YesNo = ({
@@ -53,19 +55,11 @@ const YesNo = ({
   </>
 );
 
-const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
-  const [data, setData] = useState<TabTwoData>({
-    cartColor: "",
-    cartOutAfter6am: "",
-    neighborsReceived: "",
-    lidClosed: "",
-    blocked: "",
-    hazardous: "",
-  });
+const TabTwo = ({ data, onChange, onBack, onNext }: TabTwoProps) => {
   const [errors, setErrors] = useState<any>({});
 
   const set = (field: keyof TabTwoData, value: string) => {
-    setData((prev) => ({ ...prev, [field]: value }));
+    onChange({ ...data, [field]: value });
     setErrors((prev: any) => ({ ...prev, [field]: "" }));
   };
 
@@ -150,7 +144,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
         </button>
         <button
           className="next-btn w-50"
-          onClick={() => { if (validate()) onNext(data); }}
+          onClick={() => { if (validate()) onNext(); }}
         >
           Next
         </button>

@@ -162,7 +162,7 @@ const IllegalFirework = () => {
         </div>}
 
         {/* Header */}
-        <h4 className="fw-bold mb-4">My Illegal Fireworks Report</h4>
+        <h4 className="fw-bold mb-4 mc-title">My Illegal Fireworks Report</h4>
 
         {step === 1 && (
           <SectionOne
