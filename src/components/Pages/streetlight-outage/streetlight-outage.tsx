@@ -229,7 +229,7 @@ const StreetlightOutage = () => {
     <>
       <div className="container mt-3 mb-4">
         {/* Header */}
-        <h4 className="fw-bold mb-4">Your Streetlight Outage Report</h4>
+        <h4 className="fw-bold mb-4 mc-title">Your Streetlight Outage Report</h4>
 
         {/* Photo Upload Section */}
         <div className="mb-3">

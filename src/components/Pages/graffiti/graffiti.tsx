@@ -183,7 +183,7 @@ const Graffiti = () => {
     <>
       <div className="container mt-3 mb-4">
         {/* Header */}
-        <h4 className="fw-bold mb-4">Your Graffiti Report</h4>
+        <h4 className="fw-bold mb-4 all-title">Your Graffiti Report</h4>
         <p className="text-muted">
           Report graffiti on buildings, sidewalks, roads and structures.
         </p>

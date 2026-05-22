@@ -205,4 +205,10 @@
   text-overflow: ellipsis;
 }
 
+.all-title {
+  border-bottom: 2px solid #d4a017;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
 

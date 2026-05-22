@@ -207,7 +207,7 @@ const IllegalDumping = () => {
     <>
       <div className="container mt-3 mb-4">
         {/* Header */}
-        <h4 className="fw-bold mb-4">Your Illegal Dumping Report</h4>
+        <h4 className="fw-bold mb-4 all-title">Your Illegal Dumping Report</h4>
         <p className="text-muted">
           Illegal dumping includes large amounts of garbage and junk left on
           City of San Jose streets or sidewalks.
