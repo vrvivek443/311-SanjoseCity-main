@@ -85,6 +85,7 @@ interface TabTwoProps {
 
 const TabTwo = ({ quantities, onChange, onBack, onNext }: TabTwoProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [limitError, setLimitError] = useState(false);
 
   const total = Object.values(quantities).reduce((sum, q) => sum + q, 0);
 
@@ -102,6 +103,12 @@ const TabTwo = ({ quantities, onChange, onBack, onNext }: TabTwoProps) => {
     : [];
 
   const addCustomItem = (label: string) => {
+    if (total >= 12) {
+      setLimitError(true);
+      setSearchQuery("");
+      setTimeout(() => setLimitError(false), 3000);
+      return;
+    }
     const key = `custom:${label}`;
     onChange({ ...quantities, [key]: (quantities[key] ?? 0) + 1 });
     setSearchQuery("");
@@ -213,6 +220,12 @@ const TabTwo = ({ quantities, onChange, onBack, onNext }: TabTwoProps) => {
           </div>
         )}
       </div>
+
+      {limitError && (
+        <p className="text-danger mb-2" style={{ fontSize: "13px" }}>
+          Maximum limit of 12 items reached.
+        </p>
+      )}
 
       <p className="mb-4" style={{ fontSize: "13px" }}>
         Still can't find your item?{" "}

@@ -4,7 +4,7 @@ import { useAuth } from "./context/AuthContext";
 import "./App.css";
 
 import Home from "./components/Home";
-import OtherReports from "./components/other-reports";
+import OtherReports from "./components/other-reports/other-reports";
 import VehicleConcerns from "./components/Pages/vehicle-concern/vehicle-concerns";
 import Graffiti from "./components/Pages/graffiti/graffiti";
 import TrackReport from "./components/Pages/graffiti/Track-Report/track-report";
