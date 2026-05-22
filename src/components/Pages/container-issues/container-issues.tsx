@@ -115,11 +115,10 @@ const ContainerIssues = () => {
 
       {step === 2 && (
         <TabTwo
+          data={tabTwoData}
+          onChange={setTabTwoData}
           onBack={() => setStep(1)}
-          onNext={(data) => {
-            setTabTwoData(data);
-            setStep(3);
-          }}
+          onNext={() => setStep(3)}
         />
       )}
 

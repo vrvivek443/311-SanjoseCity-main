@@ -37,23 +37,27 @@ const CART_ISSUES = [
 ];
 
 interface TabTwoProps {
+  data: TabTwoData;
+  onChange: (data: TabTwoData) => void;
   onBack: () => void;
-  onNext: (data: TabTwoData) => void;
+  onNext: () => void;
 }
 
 const CartDiagram = () => (
   <img src={cartImage} alt="Cart diagram" className="ci-cart-img" />
 );
 
-const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
-  const [cartColor, setCartColor] = useState("");
-  const [authorized, setAuthorized] = useState<string>("");
-  const [issues, setIssues] = useState<string[]>([]);
+const TabTwo = ({ data, onChange, onBack, onNext }: TabTwoProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [errors, setErrors] = useState<any>({});
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const set = <K extends keyof TabTwoData>(field: K, value: TabTwoData[K]) => {
+    onChange({ ...data, [field]: value });
+    setErrors((prev: any) => ({ ...prev, [field]: "" }));
+  };
 
   useEffect(() => {
     const urls = files.map((f) => URL.createObjectURL(f));
@@ -62,18 +66,24 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
   }, [files]);
 
   const toggleIssue = (issue: string) => {
-    setIssues((prev) =>
-      prev.includes(issue) ? prev.filter((i) => i !== issue) : [...prev, issue]
-    );
-    setErrors((prev: any) => ({ ...prev, issues: "" }));
+    const updated = data.issues.includes(issue)
+      ? data.issues.filter((i) => i !== issue)
+      : [...data.issues, issue];
+    set("issues", updated);
   };
 
   const handleFiles = (incoming: FileList | null) => {
     if (!incoming) return;
-    const valid = Array.from(incoming).filter(
-      (f) =>
-        ["image/png", "image/jpeg"].includes(f.type) && f.size <= 10 * 1024 * 1024
-    );
+    const fileArray = Array.from(incoming);
+    const invalidFormat = fileArray.filter((f) => !["image/png", "image/jpeg"].includes(f.type));
+    const oversized = fileArray.filter((f) => ["image/png", "image/jpeg"].includes(f.type) && f.size > 10 * 1024 * 1024);
+    const valid = fileArray.filter((f) => ["image/png", "image/jpeg"].includes(f.type) && f.size <= 10 * 1024 * 1024);
+
+    const fileErrors: string[] = [];
+    if (invalidFormat.length > 0) fileErrors.push("Only PNG/JPG/JPEG files are allowed.");
+    if (oversized.length > 0) fileErrors.push("Some files exceed the 10 MB limit and were not added.");
+
+    setErrors((prev: any) => ({ ...prev, file: fileErrors.length > 0 ? fileErrors.join(" ") : "" }));
     setFiles((prev) => [...prev, ...valid]);
   };
 
@@ -84,11 +94,11 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
   const validate = () => {
     const e: any = {};
     let valid = true;
-    if (!cartColor) {
+    if (!data.cartColor) {
       e.cartColor = "Please select your cart color";
       valid = false;
     }
-    if (issues.length === 0) {
+    if (data.issues.length === 0) {
       e.issues = "Please select at least one issue";
       valid = false;
     }
@@ -106,16 +116,13 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
       {CART_COLORS.map((c) => (
         <div
           key={c.key}
-          className={`ci-color-option ${cartColor === c.key ? "ci-color-selected" : ""}`}
-          onClick={() => {
-            setCartColor(c.key);
-            setErrors((prev: any) => ({ ...prev, cartColor: "" }));
-          }}
+          className={`ci-color-option ${data.cartColor === c.key ? "ci-color-selected" : ""}`}
+          onClick={() => set("cartColor", c.key)}
         >
           <input
             type="radio"
             className="form-check-input me-2"
-            checked={cartColor === c.key}
+            checked={data.cartColor === c.key}
             onChange={() => {}}
           />
           <span
@@ -141,8 +148,8 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
           type="radio"
           className="form-check-input"
           name="authorized"
-          checked={authorized === "yes"}
-          onChange={() => setAuthorized("yes")}
+          checked={data.authorized === "yes"}
+          onChange={() => set("authorized", "yes")}
         />
         <label className="form-check-label" style={{ fontSize: "14px" }}>Yes</label>
       </div>
@@ -151,8 +158,8 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
           type="radio"
           className="form-check-input"
           name="authorized"
-          checked={authorized === "no"}
-          onChange={() => setAuthorized("no")}
+          checked={data.authorized === "no"}
+          onChange={() => set("authorized", "no")}
         />
         <label className="form-check-label" style={{ fontSize: "14px" }}>No</label>
       </div>
@@ -172,7 +179,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                checked={issues.includes(issue)}
+                checked={data.issues.includes(issue)}
                 onChange={() => toggleIssue(issue)}
               />
               <label
@@ -259,9 +266,14 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
         </span>
       </div>
 
-      <p className="text-end text-muted mb-3" style={{ fontSize: "13px" }}>
+      <p className="text-end text-muted mb-1" style={{ fontSize: "13px" }}>
         Max 10 MB attachments
       </p>
+      {errors.file && (
+        <p className="text-danger mb-3" style={{ fontSize: "13px" }}>
+          {errors.file}
+        </p>
+      )}
 
       {/* Buttons */}
       <div className="d-flex gap-2">
@@ -270,7 +282,7 @@ const TabTwo = ({ onBack, onNext }: TabTwoProps) => {
         </button>
         <button
           className="next-btn w-50"
-          onClick={() => { if (validate()) onNext({ cartColor, authorized, issues }); }}
+          onClick={() => { if (validate()) onNext(); }}
         >
           Next
         </button>
