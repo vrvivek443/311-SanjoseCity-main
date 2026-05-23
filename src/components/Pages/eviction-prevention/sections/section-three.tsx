@@ -87,7 +87,7 @@ const SectionThree: React.FC<SectionThreeProps> = ({
           value={data.adults}
           onChange={(e) => set("adults", e.target.value)}
         >
-          <option value=""></option>
+          <option value="" disabled hidden></option>
           {COUNT_OPTIONS.map((o) => <option key={o}>{o}</option>)}
         </select>
         {errors.adults && <p className="text-danger mb-0 mt-1 ep-error">{errors.adults}</p>}
@@ -104,7 +104,7 @@ const SectionThree: React.FC<SectionThreeProps> = ({
           value={data.minors}
           onChange={(e) => set("minors", e.target.value)}
         >
-          <option value=""></option>
+          <option value="" disabled hidden></option>
           {COUNT_OPTIONS.map((o) => <option key={o}>{o}</option>)}
         </select>
         {errors.minors && <p className="text-danger mb-0 mt-1 ep-error">{errors.minors}</p>}
@@ -120,17 +120,21 @@ const SectionThree: React.FC<SectionThreeProps> = ({
           value={data.incomeRange}
           onChange={(e) => set("incomeRange", e.target.value)}
         >
-          <option value=""></option>
+          <option value="" disabled hidden></option>
           {INCOME_RANGES.map((r) => <option key={r}>{r}</option>)}
         </select>
         <div className="input-group">
           <span className="input-group-text">$</span>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             className="form-control"
             placeholder=""
             value={data.incomeAmount}
-            onChange={(e) => set("incomeAmount", e.target.value)}
+            onChange={(e) => {
+              const digits = e.target.value.replace(/[^0-9]/g, "");
+              set("incomeAmount", digits);
+            }}
           />
         </div>
       </div>

@@ -1,122 +1,5 @@
 .vehicle-container {
-    max-width: 700px;
-    margin: auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.steps {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-.step-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.step {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.step.active {
-    background: #0f766e;
-}
-
-.line {
-    width: 50px;
-    height: 2px;
-    background: #cbd5e1;
-}
-
-.instruction {
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.required {
-    color: red;
-}
-
-.sub-text {
-    font-size: 13px;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-.camera-box {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.camera-icon {
-    font-size: 40px;
-    cursor: pointer;
-    background: #0f766e;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    transition: 0.2s;
-}
-
-.camera-icon:hover {
-    background: #115e59;
-}
-
-.input-box {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.radio-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.radio-group input {
-    margin-right: 8px;
-}
-
-.next-btn {
-    width: 100%;
-    padding: 12px;
-    background: #0f766e;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 4px;
-}
-
-.next-btn:hover {
-    background: #115e59;
-}
-
-.vehicle-container {
-    max-width: 700px;
-    margin: auto;
-    padding: 20px;
+    padding: 20px 0;
     font-family: Arial, sans-serif;
 }
 
@@ -238,72 +121,56 @@
 }
 
 .case-2-vc {
-    height: "150px";
-    color: "#aaa";
-    font-size: "16px";
-    cursor: "pointer";
-}
-
-.submitForm {
-    width: "80px";
-    height: "80px";
-    border-radius: "50%";
-    border: "5px solid #28a745";
-    display: "inline-flex";
-    align-items: "center";
-    justify-content: "center";
-    font-size: "40px";
-    color: "#28a745";
-}
-
-.maxWidth {
-    max-width: "700px";
+    height: 150px;
+    color: #aaa;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .search-btn {
-  position: relative;
-  text-align: center;
+    position: relative;
+    text-align: center;
 }
 
 .search-btn .icon {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .loader-box {
-  background: white;
-  padding: 20px 30px;
-  border-radius: 10px;
-  text-align: center;
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #ccc;
-  border-top: 4px solid #007bff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 10px;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }

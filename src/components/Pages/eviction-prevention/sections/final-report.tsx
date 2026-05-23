@@ -62,7 +62,7 @@ const FinalReport: React.FC<FinalReportProps> = ({
       <Row label="City" value={sectionTwo.city} required />
       <Row label="Zipcode" value={sectionTwo.zipcode} required />
       <Row label="Email" value={sectionTwo.email} required />
-      <Row label="Phone #" value={sectionTwo.phone} required />
+      <Row label="Phone" value={sectionTwo.phone} required />
       <Row
         label="Can we send you text messages about your request?"
         value={sectionTwo.allowText}

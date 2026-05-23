@@ -133,7 +133,7 @@ const SectionTwo: React.FC<SectionTwoProps> = ({
       <Field label="Email" value={data.email} error={errors.email} onChange={(v) => set("email", v)} required type="email" />
       <div className="mb-3">
         <label className="fw-semibold mb-1 d-block">
-          Phone #<span className="text-danger"> *</span>
+          Phone<span className="text-danger"> *</span>
         </label>
         <input
           type="tel"

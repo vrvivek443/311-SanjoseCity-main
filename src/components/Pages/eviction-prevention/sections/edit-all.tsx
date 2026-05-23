@@ -187,7 +187,7 @@ const EditAll: React.FC<EditAllProps> = ({
       <Field label="State" value={sectionTwo.state} error={errors.state} onChange={(v) => set2("state", v)} required />
       <Field label="Zipcode" value={sectionTwo.zipcode} error={errors.zipcode} onChange={(v) => set2("zipcode", v)} required />
       <Field label="Email" value={sectionTwo.email} error={errors.email} onChange={(v) => set2("email", v)} required type="email" />
-      <Field label="Phone #" value={sectionTwo.phone} error={errors.phone} onChange={(v) => set2("phone", v)} required type="tel" />
+      <Field label="Phone" value={sectionTwo.phone} error={errors.phone} onChange={(v) => set2("phone", v)} required type="tel" />
 
       <div className="mb-3">
         <label className="fw-semibold mb-1 d-block">

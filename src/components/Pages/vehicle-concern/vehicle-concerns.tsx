@@ -287,7 +287,7 @@ const VehicleConcern: React.FC = () => {
   };
 
   return (
-    <div className="vehicle-container">
+    <div className="container mt-3 mb-4 vehicle-container">
       <h4 className="fw-bold mb-4 all-title">Your Vehicle Concerns Report</h4>
 
       {/* Progress Steps */}
