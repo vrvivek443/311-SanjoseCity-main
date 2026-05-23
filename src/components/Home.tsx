@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // Importing images and items
 import vehicle from "../assets/logo-Images/Vehicle-Concern.png";
@@ -22,6 +23,7 @@ import missedcollection from "../assets/logo-Images/missed-collection.png";
 import servicenewhomes from "../assets/logo-Images/create-new-services.png";
 import mycollectionscheduele from "../assets/logo-Images/collection-schedule.png";
 import Modal from "../components/shared/modal/modal";
+import LoginAlert from "./shared/login-alert/login-alert";
 
 // FAQ items
 const faqItems = [
@@ -90,10 +92,50 @@ const recyclingitems = [
 ];
 
 const Home = () => {
+  const { login } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState<any>(null);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [loginAlertTitle, setLoginAlertTitle] = useState("");
+  const [pendingPath, setPendingPath] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
   const navigate = useNavigate();
+
+  const openLoginAlert = (title: string, path: string) => {
+    setLoginAlertTitle(title);
+    setPendingPath(path);
+    setLoginError("");
+    setShowLoginAlert(true);
+  };
+
+  const handleVehicleConcernContinue = () => {
+    setShowModal(false);
+    if (localStorage.getItem("sj311_session")) {
+      navigate("/vehicle-concern");
+    } else {
+      openLoginAlert("Vehicle Concerns", "/vehicle-concern");
+    }
+  };
+
+  const handleLoginAlertLogin = (email: string, password: string) => {
+    setIsLoginSubmitting(true);
+    setLoginError("");
+    const result = login(email, password);
+    setIsLoginSubmitting(false);
+    if (result.success) {
+      setShowLoginAlert(false);
+      navigate(pendingPath);
+    } else {
+      setLoginError(result.error || "Login failed. Please try again.");
+    }
+  };
+
+  const handleLoginAlertGuest = () => {
+    setShowLoginAlert(false);
+    navigate(pendingPath);
+  };
 
   // Filter items based on search query
   const filteredReportItems = reportItems.filter((item) =>
@@ -103,6 +145,20 @@ const Home = () => {
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  if (showLoginAlert) {
+    return (
+      <div className="container mt-4">
+        <LoginAlert
+          title={loginAlertTitle}
+          onLogin={handleLoginAlertLogin}
+          onGuestSubmit={handleLoginAlertGuest}
+          isSubmitting={isLoginSubmitting}
+          error={loginError}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -121,10 +177,7 @@ const Home = () => {
                       "To report a vehicle related emergency or to report a crime/ illegal activity in progress call 911 or 408-277-8911.",
                     primaryText: "I am not reporting an emergency, continue",
                     secondaryText: "Home",
-                    onPrimary: () => {
-                      setShowModal(false);
-                      navigate("/vehicle-concern");
-                    },
+                    onPrimary: handleVehicleConcernContinue,
                     onSecondary: () => {
                       setShowModal(false);
                       navigate("/");
@@ -160,6 +213,7 @@ const Home = () => {
         onPrimary={modalData?.onPrimary || (() => {})}
         onSecondary={modalData?.onSecondary || (() => {})}
       />
+
       {/* Looking for section */}
       {/* Looking for section */}
       <div className="dashboard">
