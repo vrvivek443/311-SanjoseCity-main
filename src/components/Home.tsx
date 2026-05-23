@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 // Importing images and items
@@ -102,12 +102,25 @@ const Home = () => {
   const [loginError, setLoginError] = useState("");
   const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setShowLoginAlert(false);
+  }, [location.key]);
 
   const openLoginAlert = (title: string, path: string) => {
     setLoginAlertTitle(title);
     setPendingPath(path);
     setLoginError("");
     setShowLoginAlert(true);
+  };
+
+  const handleAuthRequired = (title: string, path: string) => {
+    if (localStorage.getItem("sj311_session")) {
+      navigate(path);
+    } else {
+      openLoginAlert(title, path);
+    }
   };
 
   const handleVehicleConcernContinue = () => {
@@ -142,7 +155,7 @@ const Home = () => {
     item.label.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
@@ -185,10 +198,18 @@ const Home = () => {
                   });
 
                   setShowModal(true);
+                } else if (item.path === "/graffiti") {
+                  handleAuthRequired("Graffiti", "/graffiti");
+                } else if (item.path === "/pothole") {
+                  handleAuthRequired("Pothole", "/pothole");
                 } else if (item.path === "/streetlight-outage") {
-                  navigate("/streetlight-warning");
+                  handleAuthRequired("Streetlight Outage", "/streetlight-warning");
+                } else if (item.path === "/other-issues") {
+                  handleAuthRequired("Other Issues", "/other-issues");
+                } else if (item.path === "/illegal-fireworks") {
+                  handleAuthRequired("Illegal Fireworks", "/illegal-fireworks");
                 } else if (item.path === "/community-wifi") {
-                  navigate("/community-wifi-warning");
+                  handleAuthRequired("Community WiFi", "/community-wifi-warning");
                 } else {
                   item.path && navigate(item.path);
                 }
