@@ -3,18 +3,22 @@ import "./login-alert.css";
 
 interface LoginAlertProps {
   title?: string;
+  extraDescriptions?: string[];
   description?: string;
   onLogin: (email: string, password: string) => void | Promise<void>;
   onGuestSubmit: () => void;
+  secondaryLabel?: string;
   isSubmitting?: boolean;
   error?: string;
 }
 
 const LoginAlert: React.FC<LoginAlertProps> = ({
   title,
+  extraDescriptions,
   description = "By logging in you will be able to receive updates on the status of your report.",
   onLogin,
   onGuestSubmit,
+  secondaryLabel = "Submit as guest",
   isSubmitting = false,
   error,
 }) => {
@@ -31,6 +35,9 @@ const LoginAlert: React.FC<LoginAlertProps> = ({
   return (
     <div className="la-wrapper">
       {title && <h4 className="fw-bold mb-4 all-title">{title}</h4>}
+      {extraDescriptions?.map((text, i) => (
+        <p key={i} className="la-description">{text}</p>
+      ))}
       <p className="la-description">{description}</p>
 
       {error && <div className="la-error-banner">{error}</div>}
@@ -77,7 +84,7 @@ const LoginAlert: React.FC<LoginAlertProps> = ({
           onClick={onGuestSubmit}
           disabled={isSubmitting}
         >
-          Submit as guest
+          {secondaryLabel}
         </button>
         <button
           className="la-login-btn"

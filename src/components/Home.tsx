@@ -91,6 +91,13 @@ const recyclingitems = [
   { img: mycollectionscheduele, label: "My Collection Schedule", path: "/collection-schedule" },
 ];
 
+const RECYCLING_MANDATORY_LOGIN: Record<string, string> = {
+  "/junk-pickup":        "In order to submit a Junk Pickup Request you need to have an account with San Jose 311.",
+  "/container-issues":   "In order to submit a Container Issues Report you need to have an account with San Jose 311.",
+  "/missed-collections": "In order to submit a Missed Collections Report you need to have an account with San Jose 311.",
+  "/services-new-homes": "In order to submit a Services for New Homes Request you need to have an account with San Jose 311.",
+};
+
 const Home = () => {
   const { login } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
@@ -98,7 +105,10 @@ const Home = () => {
   const [modalData, setModalData] = useState<any>(null);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [loginAlertTitle, setLoginAlertTitle] = useState("");
+  const [loginAlertExtraDescriptions, setLoginAlertExtraDescriptions] = useState<string[]>([]);
+  const [loginAlertSecondaryLabel, setLoginAlertSecondaryLabel] = useState("Submit as guest");
   const [pendingPath, setPendingPath] = useState("");
+  const [guestPath, setGuestPath] = useState("");
   const [loginError, setLoginError] = useState("");
   const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -108,18 +118,27 @@ const Home = () => {
     setShowLoginAlert(false);
   }, [location.key]);
 
-  const openLoginAlert = (title: string, path: string) => {
+  interface LoginAlertOptions {
+    secondaryLabel?: string;
+    guestPath?: string;
+    extraDescriptions?: string[];
+  }
+
+  const openLoginAlert = (title: string, path: string, options: LoginAlertOptions = {}) => {
     setLoginAlertTitle(title);
     setPendingPath(path);
+    setGuestPath(options.guestPath ?? path);
+    setLoginAlertSecondaryLabel(options.secondaryLabel ?? "Submit as guest");
+    setLoginAlertExtraDescriptions(options.extraDescriptions ?? []);
     setLoginError("");
     setShowLoginAlert(true);
   };
 
-  const handleAuthRequired = (title: string, path: string) => {
+  const handleAuthRequired = (title: string, path: string, options?: LoginAlertOptions) => {
     if (localStorage.getItem("sj311_session")) {
       navigate(path);
     } else {
-      openLoginAlert(title, path);
+      openLoginAlert(title, path, options);
     }
   };
 
@@ -147,7 +166,7 @@ const Home = () => {
 
   const handleLoginAlertGuest = () => {
     setShowLoginAlert(false);
-    navigate(pendingPath);
+    navigate(guestPath);
   };
 
   // Filter items based on search query
@@ -164,6 +183,8 @@ const Home = () => {
       <div className="container mt-4">
         <LoginAlert
           title={loginAlertTitle}
+          extraDescriptions={loginAlertExtraDescriptions}
+          secondaryLabel={loginAlertSecondaryLabel}
           onLogin={handleLoginAlertLogin}
           onGuestSubmit={handleLoginAlertGuest}
           isSubmitting={isLoginSubmitting}
@@ -198,6 +219,16 @@ const Home = () => {
                   });
 
                   setShowModal(true);
+                } else if (item.path === "/illegal-dumping") {
+                  handleAuthRequired("Illegal Dumping", "/illegal-dumping", {
+                    secondaryLabel: "Return home",
+                    guestPath: "/",
+                    extraDescriptions: [
+                      "In order to submit a Illegal Dumping Report you need to have an account with San Jose 311.",
+                      "Don't worry we do not send junk email or share your private information.",
+                      "Signing up for an account with San Jose 311 gives you the ability to receive updates and communication on the status of your reports.",
+                    ],
+                  });
                 } else if (item.path === "/graffiti") {
                   handleAuthRequired("Graffiti", "/graffiti");
                 } else if (item.path === "/pothole") {
@@ -249,6 +280,8 @@ const Home = () => {
                 if (item.path) {
                   if (item.path.startsWith("http")) {
                     window.open(item.path, "_blank");
+                  } else if (item.path === "/eviction-prevention-warning") {
+                    handleAuthRequired("Eviction Prevention", "/eviction-prevention-warning");
                   } else {
                     navigate(item.path);
                   }
@@ -276,7 +309,23 @@ const Home = () => {
             <div
               className="tile"
               key={index}
-              onClick={() => item.path && navigate(item.path)}
+              onClick={() => {
+                if (!item.path) return;
+                const firstDesc = RECYCLING_MANDATORY_LOGIN[item.path];
+                if (firstDesc) {
+                  handleAuthRequired(item.label, item.path, {
+                    secondaryLabel: "Return home",
+                    guestPath: "/",
+                    extraDescriptions: [
+                      firstDesc,
+                      "Don't worry we do not send junk email or share your private information.",
+                      "Signing up for an account with San Jose 311 gives you the ability to receive updates and communication on the status of your reports.",
+                    ],
+                  });
+                } else {
+                  navigate(item.path);
+                }
+              }}
               style={{ cursor: "pointer" }}
             >
               <div className="tile-icon">
