@@ -1,0 +1,156 @@
+.la-wrapper {
+  width: 100%;
+}
+
+.la-description {
+  font-size: 14px;
+  color: #3d3d3d;
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+.la-error-banner {
+  background: #fff0f0;
+  border: 1px solid #f5c6cb;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.la-field {
+  margin-bottom: 18px;
+}
+
+.la-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #08060d;
+  margin-bottom: 6px;
+}
+
+.la-input {
+  width: 100%;
+  height: 42px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #08060d;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.la-input:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+  outline: none;
+}
+
+.la-input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.la-password-wrapper {
+  position: relative;
+}
+
+.la-password-wrapper .la-input {
+  padding-right: 44px;
+}
+
+.la-toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  color: #6b6375;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.la-toggle-password i {
+  font-size: 18px;
+}
+
+.la-toggle-password:hover i {
+  color: #0f766e;
+}
+
+.la-forgot-row {
+  text-align: left;
+  margin-top: -6px;
+  margin-bottom: 20px;
+}
+
+.la-link {
+  font-size: 14px;
+  color: #0f766e;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.la-link:hover {
+  color: #0a5a53;
+}
+
+.la-btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.la-guest-btn {
+  flex: 1;
+  height: 44px;
+  background: transparent;
+  color: #333;
+  border: 1.5px solid #999;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.la-guest-btn:hover {
+  background: #f5f5f5;
+  border-color: #666;
+}
+
+.la-guest-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.la-login-btn {
+  flex: 1;
+  height: 44px;
+  background: #0f766e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.la-login-btn:hover {
+  background: #0a5a53;
+}
+
+.la-login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
