@@ -25,6 +25,32 @@ import mycollectionscheduele from "../assets/logo-Images/collection-schedule.png
 import Modal from "../components/shared/modal/modal";
 import LoginAlert from "./shared/login-alert/login-alert";
 
+// ── Report types & mock data (replace fetch calls with real API) ──────────────
+interface Report {
+  id: string;
+  date: string;
+  status: string;
+  category: string;
+  subcategory: string;
+}
+
+const MOCK_REPORTS: Record<"my-reports" | "recycling" | "follow", Report[]> = {
+  "my-reports": [
+    { id: "260522-000010", date: "05/22/2026 9:15 AM",  status: "Open", category: "Streets & Sidewalks", subcategory: "Pothole" },
+    { id: "260521-000007", date: "05/21/2026 2:40 PM",  status: "Open", category: "Graffiti",             subcategory: "Remove Graffiti" },
+    { id: "260520-000004", date: "05/20/2026 11:00 AM", status: "Open", category: "Vehicle Concern",      subcategory: "Abandoned Vehicle" },
+  ],
+  "recycling": [
+    { id: "260521-000000", date: "05/21/2026 3:55 AM",  status: "Open", category: "Garbage and Recycling", subcategory: "Start New Services" },
+    { id: "260520-000003", date: "05/20/2026 7:38 AM",  status: "Open", category: "Garbage and Recycling", subcategory: "Junk Pickup" },
+    { id: "260520-000002", date: "05/20/2026 5:45 AM",  status: "Open", category: "Garbage and Recycling", subcategory: "Junk Pickup" },
+  ],
+  "follow": [
+    { id: "260519-000011", date: "05/19/2026 8:00 AM",  status: "Open", category: "Streets & Sidewalks", subcategory: "Illegal Dumping" },
+    { id: "260518-000006", date: "05/18/2026 4:20 PM",  status: "Open", category: "Sewer / Water Issues", subcategory: "Sewer Overflow" },
+  ],
+};
+
 // FAQ items
 const faqItems = [
   {
@@ -101,6 +127,7 @@ const RECYCLING_MANDATORY_LOGIN: Record<string, string> = {
 const Home = () => {
   const { login } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeReportTab, setActiveReportTab] = useState<"my-reports" | "recycling" | "follow">("my-reports");
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState<any>(null);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
@@ -337,8 +364,48 @@ const Home = () => {
         </div>
       </div>
 
-      {/* FAQ Section */}
+      {/* Reports Bar */}
       <div className="dashboard">
+        <div className="rb-tabs">
+          <button
+            className={`rb-tab ${activeReportTab === "my-reports" ? "rb-tab-active" : ""}`}
+            onClick={() => setActiveReportTab("my-reports")}
+          >
+            My Reports
+          </button>
+          <button
+            className={`rb-tab ${activeReportTab === "recycling" ? "rb-tab-active" : ""}`}
+            onClick={() => setActiveReportTab("recycling")}
+          >
+            My Garbage &amp; Recycling Reports
+          </button>
+          <button
+            className={`rb-tab ${activeReportTab === "follow" ? "rb-tab-active" : ""}`}
+            onClick={() => setActiveReportTab("follow")}
+          >
+            Reports I Follow
+          </button>
+        </div>
+        <div className="rb-content">
+          <div className="rb-content-header">
+            <span className="rb-show-all">Show All</span>
+          </div>
+          {MOCK_REPORTS[activeReportTab].map((report) => (
+            <div className="rb-row" key={report.id}>
+              <div className="rb-row-top">
+                <span className="rb-report-id">{report.id}</span>
+                <span className="rb-report-date">{report.date}</span>
+                <span className="rb-report-status">{report.status}</span>
+              </div>
+              <div className="rb-report-category">{report.category}</div>
+              <div className="rb-report-subcategory">{report.subcategory}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="dashboard" style={{ marginTop: "32px" }}>
         <h3 className="section-title">Find Answers about City Services</h3>
         <div className="search-section">
           <input
