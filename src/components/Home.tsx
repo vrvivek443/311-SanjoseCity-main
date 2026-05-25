@@ -132,6 +132,7 @@ const Home = () => {
   const [activeReportTab, setActiveReportTab] = useState<"my-reports" | "recycling" | "follow">("my-reports");
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState<any>(null);
+  const [showEncampmentModal, setShowEncampmentModal] = useState(false);
   const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [loginAlertTitle, setLoginAlertTitle] = useState("");
   const [loginAlertExtraDescriptions, setLoginAlertExtraDescriptions] = useState<string[]>([]);
@@ -177,6 +178,23 @@ const Home = () => {
       navigate("/vehicle-concern");
     } else {
       openLoginAlert("Vehicle Concerns", "/vehicle-concern");
+    }
+  };
+
+  const handleEncampmentContinue = () => {
+    setShowEncampmentModal(false);
+    if (localStorage.getItem("sj311_session")) {
+      navigate("/encampment-concern");
+    } else {
+      openLoginAlert("Encampment Concerns", "/encampment-concern", {
+        secondaryLabel: "Return home",
+        guestPath: "/",
+        extraDescriptions: [
+          "In order to submit an Encampment Concerns Report you need to have an account with San Jose 311.",
+          "Don't worry we do not send junk email or share your private information.",
+          "Signing up for an account with San Jose 311 gives you the ability to receive updates and communication on the status of your reports.",
+        ],
+      });
     }
   };
 
@@ -270,6 +288,8 @@ const Home = () => {
                   handleAuthRequired("Illegal Fireworks", "/illegal-fireworks");
                 } else if (item.path === "/community-wifi") {
                   handleAuthRequired("Community WiFi", "/community-wifi-warning");
+                } else if (item.path === "/encampment-concern") {
+                  setShowEncampmentModal(true);
                 } else {
                   item.path && navigate(item.path);
                 }
@@ -294,6 +314,19 @@ const Home = () => {
         onPrimary={modalData?.onPrimary || (() => {})}
         onSecondary={modalData?.onSecondary || (() => {})}
       />
+
+      <Modal show={showEncampmentModal} onClose={() => setShowEncampmentModal(false)}>
+        <p>To report an encampment related emergency or to report a crime/illegal activity in progress, call 911 or 408-277-8911.</p>
+        <p>If your concern is about a vehicle with people living in it, please report it via the "Vehicle concerns" service on SJ311.</p>
+        <div className="d-flex flex-column gap-2 mt-3">
+          <button className="btn btn-color w-100" onClick={handleEncampmentContinue}>
+            Continue to report an encampment concern
+          </button>
+          <button className="btn btn-outline-secondary w-100" onClick={() => setShowEncampmentModal(false)}>
+            Report a lived-in vehicle concern
+          </button>
+        </div>
+      </Modal>
 
       {/* Looking for section */}
       {/* Looking for section */}
