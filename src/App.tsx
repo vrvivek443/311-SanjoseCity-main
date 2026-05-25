@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import OtherReports from "./components/other-reports/other-reports";
 import VehicleConcerns from "./components/Pages/vehicle-concern/vehicle-concerns";
 import Graffiti from "./components/Pages/graffiti/graffiti";
-import TrackReport from "./components/Pages/graffiti/Track-Report/track-report";
+import TrackReport from "./components/shared/Track-Report/track-report";
 import IllegalDumping from "./components/Pages/illegal-dumping/illegal-dumping";
 import Potholes from "./components/Pages/potholes/potholes";
 import StreetlightOutage from "./components/Pages/streetlight-outage/streetlight-outage";
