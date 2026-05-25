@@ -137,8 +137,8 @@ const IllegalFirework = () => {
               },
             })
           }
-          secondaryText="Return home"
-          onSecondary={() => navigate("/")}
+          secondaryText=""
+          onSecondary={() => {}}
         />
       </>
     );

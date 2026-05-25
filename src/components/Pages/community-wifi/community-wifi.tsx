@@ -161,8 +161,8 @@ const CommunityWifi = () => {
               },
             })
           }
-          secondaryText="Return home"
-          onSecondary={() => navigate("/")}
+          secondaryText=""
+          onSecondary={() => {}}
         />
       </>
     );

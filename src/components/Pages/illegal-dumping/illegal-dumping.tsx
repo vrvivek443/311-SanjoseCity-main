@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
 import AlertNavigation from "../../shared/alert-navigation/alert-navigation";
+import FileUpload from "../../shared/file-upload/file-upload";
 import "./illegal-dumping.css";
 import Modal from "../../shared/modal/modal";
 
 const IllegalDumping = () => {
   const navigate = useNavigate();
   const [images, setImages] = useState<File[]>([]);
-  const [imageError, setImageError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
@@ -24,42 +24,6 @@ const IllegalDumping = () => {
 
   const [errors, setErrors] = useState<any>({});
   const [showSuccess, setShowSuccess] = useState(false);
-  const handleDroppedFiles = (files: FileList) => {
-    let selectedFiles = Array.from(files);
-
-    let hasSizeError = false;
-    let hasTypeError = false;
-
-    const validFiles = selectedFiles.filter((file) => {
-      if (!file.type.startsWith("image/")) {
-        hasTypeError = true;
-        return false;
-      }
-
-      if (file.size > 10 * 1024 * 1024) {
-        hasSizeError = true;
-        return false;
-      }
-
-      return true;
-    });
-
-    if (hasTypeError) {
-      setImageError("Only image files are allowed (JPG, PNG, etc.)");
-    } else if (hasSizeError) {
-      setImageError("One or more images exceed 10MB limit");
-    } else {
-      setImageError("");
-    }
-
-    if (validFiles.length > 0) {
-      setImages((prev) => [...prev, ...validFiles]);
-
-      // ✅ Clear image required error
-      setImageError("");
-    }
-  };
-
   const containerStyle = {
     width: "100%",
     height: "300px",
@@ -70,16 +34,6 @@ const IllegalDumping = () => {
     const lng = e.latLng.lng();
 
     setData({ ...data, position: { lat, lng } });
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (!files) return;
-
-    handleDroppedFiles(files);
-
-    e.target.value = "";
   };
 
   const validate = () => {
@@ -107,10 +61,8 @@ const IllegalDumping = () => {
 
     // Image validation
     if (images.length === 0) {
-      setImageError("Please upload at least one image");
+      newErrors.images = "Please upload at least one image";
       isValid = false;
-    } else {
-      setImageError("");
     }
 
     setErrors(newErrors);
@@ -207,8 +159,8 @@ const IllegalDumping = () => {
               },
             })
           }
-          secondaryText="Return home"
-          onSecondary={() => navigate("/")}
+          secondaryText=""
+          onSecondary={() => {}}
         />
       </>
     );
@@ -225,91 +177,13 @@ const IllegalDumping = () => {
 
         {/* Photo Upload Section */}
         <div className="mb-3">
-          <label className="fw-bold">
-            Add a Photo<span className="text-danger">*</span>
-          </label>
-          <p className="text-muted" style={{ fontSize: "13px" }}>
-            Help us find it faster. Select any type of image format (Max 10MB
-            each)
-          </p>
-
-          <div
-            className="border rounded d-flex flex-column align-items-center justify-content-center p-4"
-            style={{
-              cursor: "pointer",
-              background: "#f8f9fa",
-              border: "2px dashed #ccc",
-            }}
-            onClick={() => document.getElementById("fileInput")?.click()}
-            // ✅ Allow drag
-            onDragOver={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            // ✅ Handle drop
-            onDrop={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              const files = e.dataTransfer.files;
-
-              if (!files || files.length === 0) return;
-
-              handleDroppedFiles(files);
-            }}
-          >
-            <div style={{ fontSize: "24px" }}>📷</div>
-            <p className="mb-0">Drag file here or</p>
-            <span className="text-primary">choose from folder</span>
-          </div>
-
-          <input
-            id="fileInput"
-            type="file"
-            multiple
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={handleImageUpload}
+          <FileUpload
+            files={images}
+            onChange={(files) => { setImages(files); setErrors((prev: any) => ({ ...prev, images: "" })); }}
+            label="Add a Photo *"
+            description="Help us find it faster. Select any type of image format (Max 10MB each)"
           />
-
-          {imageError && <p className="text-danger mt-2">{imageError}</p>}
-
-          {/* Preview */}
-          {images.length > 0 && (
-            <div className="mt-3 d-flex flex-wrap gap-2">
-              {images.map((img, index) => (
-                <div
-                  key={index}
-                  style={{
-                    position: "relative",
-                    width: "80px",
-                    height: "80px",
-                  }}
-                >
-                  <img
-                    src={URL.createObjectURL(img)}
-                    alt="preview"
-                    width={80}
-                    height={80}
-                    style={{
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                    }}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setImages((prev) => prev.filter((_, i) => i !== index))
-                    }
-                    className="new-button"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          {errors.images && <p className="text-danger mt-1" style={{ fontSize: "13px" }}>{errors.images}</p>}
         </div>
 
         {/* Address Section */}
