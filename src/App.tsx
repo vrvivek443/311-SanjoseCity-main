@@ -28,6 +28,7 @@ import ServicesNewHomes from "./components/Pages/services-new-homes/services-new
 import CollectionSchedule from "./components/Pages/collection-scheduele/collection-scheduele";
 import Login from "./components/Pages/auth/login";
 import Signup from "./components/Pages/auth/signup";
+import EncampmentConcerns from "./components/Pages/encampment-concerns/encampment-concerns";
 
 function App() {
   const navigate = useNavigate();
@@ -173,6 +174,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/other-reports" element={<OtherReports />} />
             <Route path="/vehicle-concern" element={<VehicleConcerns />} />
+            <Route path="/encampment-concern" element={<EncampmentConcerns/>} />
             <Route path="/graffiti" element={<Graffiti />} />
             <Route path="/track-report" element={<TrackReport />}/>
             <Route path="/illegal-dumping" element={<IllegalDumping />} />

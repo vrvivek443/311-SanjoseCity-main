@@ -12,6 +12,7 @@ import other from "../assets/logo-Images/other-issues.png";
 import fire from "../assets/logo-Images/Illegal-Fireworks.png";
 import wifi from "../assets/logo-Images/Community-wifi.png";
 import sewer from "../assets/logo-Images/SewerOldIssues.png";
+import encampment from "../assets/logo-Images/Encampment_Concerns.svg";
 import payutility from "../assets/logo-Images/PUB60x60.png";
 import rentregistry from "../assets/logo-Images/RentRegistry.png";
 import eviction from "../assets/logo-Images/eviction-prevention.png";
@@ -83,6 +84,7 @@ const faqItems = [
 // Report items WITH ROUTES
 const reportItems = [
   { img: vehicle, label: "Vehicle Concerns", path: "/vehicle-concern" },
+  { img: encampment, label: "Encampment Concerns", path: "/encampment-concern" },
   { img: graffiti, label: "Graffiti", path: "/graffiti" },
   { img: dump, label: "Illegal Dumping", path: "/illegal-dumping" },
   { img: pothole, label: "Pothole", path: "/pothole" },

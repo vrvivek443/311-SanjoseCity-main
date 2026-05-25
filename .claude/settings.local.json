@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item \"c:\\\\Users\\\\VIVEK\\\\Downloads\\\\311-SanjoseCity-main \\(3\\) 1\\\\311-SanjoseCity-main\\\\src\\\\components\\\\Pages\\\\encampment-concerns\\\\sections\\\\section-six.tsx\")"
+    ]
+  }
+}
