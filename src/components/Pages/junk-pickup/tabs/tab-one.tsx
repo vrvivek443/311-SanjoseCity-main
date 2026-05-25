@@ -103,7 +103,10 @@ const TabOne = ({ data, onChange, onNext }: TabOneProps) => {
             type="text"
             className="form-control"
             value={data.unit}
-            onChange={(e) => set("unit", e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+              set("unit", val);
+            }}
           />
         </div>
       </div>
