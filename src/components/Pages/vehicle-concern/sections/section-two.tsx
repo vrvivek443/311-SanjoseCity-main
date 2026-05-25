@@ -3,6 +3,7 @@ import React, {
   useImperativeHandle,
   useState,
   useEffect,
+  useRef,
 } from "react";
 import Modal from "../../../shared/modal/modal";
 
@@ -22,6 +23,8 @@ const SectionTwo = forwardRef<SectionTwoRef, SectionTwoProps>(
   ({ data, onChange }, ref) => {
     const [error, setError] = useState("");
     const [previews, setPreviews] = useState<string[]>([]);
+    const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const { images = [], noPhoto } = data;
     const [showModal, setShowModal] = useState(false);
@@ -138,47 +141,63 @@ Including a photo with your report helps our officers locate the vehicle faster 
             Photo should show the vehicle condition being reported
           </p>
 
-          {/* ✅ Image Grid Preview */}
+          {/* Previews */}
           {previews.length > 0 && (
-            <div className="row mb-3">
+            <div className="d-flex flex-wrap gap-3 mb-3">
               {previews.map((src, index) => (
-                <div className="col-4 mb-3 text-center" key={index}>
+                <div key={index} style={{ position: "relative", width: "80px", height: "80px" }}>
                   <img
                     src={src}
                     alt="preview"
-                    style={{
-                      width: "100%",
-                      height: "120px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
+                    width={80}
+                    height={80}
+                    style={{ objectFit: "cover", borderRadius: "6px" }}
                   />
                   <button
-                    className="btn btn-sm btn-danger mt-1"
+                    type="button"
+                    className="new-button"
                     onClick={() => handleRemoveImage(index)}
                   >
-                    Remove
+                    ×
                   </button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* ✅ Upload Box */}
-          <div className="d-flex justify-content-center border border-2 p-4 mb-2">
-            <label style={{ cursor: "pointer" }}>
-              Add photo
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="d-none"
-                onChange={(e) => handleAddImages(e.target.files)}
-              />
-            </label>
+          {/* Drop zone */}
+          <div
+            className="border rounded p-4 text-center mb-1"
+            style={{
+              background: isDragging ? "#e8f4f8" : "#f0f7fa",
+              borderColor: "#b0d4e0",
+              cursor: "pointer",
+            }}
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragging(false);
+              handleAddImages(e.dataTransfer.files);
+            }}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <div style={{ fontSize: "32px", color: "#198bb3" }}>📷</div>
+            <p className="fw-bold mb-1">Drag file here or</p>
+            <span style={{ color: "#198bb3", textDecoration: "underline", cursor: "pointer" }}>
+              choose from folder
+            </span>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="d-none"
+              onChange={(e) => handleAddImages(e.target.files)}
+            />
           </div>
 
-          <p className="text-muted small">Max 10 MB</p>
+          <p className="text-end text-muted mb-2" style={{ fontSize: "13px" }}>Max 10 MB attachments</p>
 
           <div className="form-check">
             <input

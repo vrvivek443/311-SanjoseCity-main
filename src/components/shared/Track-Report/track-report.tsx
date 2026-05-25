@@ -104,31 +104,64 @@ const DEFAULT_MOCK: Omit<ReportState, "service"> = {
 const MAX_COMMENT = 255;
 const mapContainerStyle = { width: "100%", height: "300px" };
 
-const PhotoGrid = ({ photos, placeholder }: { photos: string[]; placeholder: string }) => (
+const SinglePhoto = ({ photos }: { photos: string[] }) => (
   <div
-    className="border rounded d-flex align-items-center justify-content-center"
-    style={{ minHeight: 160, background: photos.length ? "#fff" : "#0b3d5c", overflow: "hidden" }}
+    className="border rounded"
+    style={{ height: 220, background: photos.length ? "#f8f8f8" : "#0b3d5c", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
   >
     {photos.length > 0 ? (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, padding: 8 }}>
-        {photos.map((src, i) => (
-          <img key={i} src={src} alt={`photo-${i}`} style={{ width: 120, height: 100, objectFit: "cover", borderRadius: 4 }} />
-        ))}
-      </div>
+      <img src={photos[0]} alt="submitted-photo" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }} />
     ) : (
       <div style={{ textAlign: "center", color: "#fff" }}>
         <i className="bx bx-camera" style={{ fontSize: 52 }}></i>
-        <p style={{ fontSize: 12, marginTop: 6 }}>{placeholder}</p>
+        <p style={{ fontSize: 12, marginTop: 6 }}>No photos submitted</p>
       </div>
     )}
   </div>
 );
 
+const PhotoGridAll = ({ photos }: { photos: string[] }) => (
+  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+    {photos.map((src, i) => (
+      <div
+        key={i}
+        style={{ background: "#f8f8f8", border: "1px solid #ddd", borderRadius: 6, height: 180, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
+      >
+        <img
+          src={src}
+          alt={`photo-${i}`}
+          style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }}
+        />
+      </div>
+    ))}
+  </div>
+);
+
 // ── Component ─────────────────────────────────────────────────────────────────
+interface PostedComment {
+  id: number;
+  text: string;
+  author: string;
+  time: string;
+}
+
 const TrackReport = () => {
   const { user } = useAuth();
   const { state } = useLocation() as { state: ReportState | null };
   const [comment, setComment] = useState("");
+  const [postedComments, setPostedComments] = useState<PostedComment[]>([]);
+
+  const handleSubmitComment = () => {
+    const trimmed = comment.trim();
+    if (!trimmed) return;
+    const now = new Date();
+    const time = now.toLocaleString("en-US", { month: "numeric", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true });
+    setPostedComments((prev) => [
+      ...prev,
+      { id: Date.now(), text: trimmed, author: user ? `${user.firstName} ${user.lastName}`.trim() : "You", time },
+    ]);
+    setComment("");
+  };
 
   const service = state?.service ?? "Report";
   const mock = MOCK_BY_SERVICE[service] ?? DEFAULT_MOCK;
@@ -139,7 +172,6 @@ const TrackReport = () => {
   const location         = state?.location         ?? mock.location!;
   const submittedDate    = state?.submittedDate     ?? mock.submittedDate!;
   const photos           = state?.photos            ?? mock.photos!;
-  const investigationPhotos = state?.investigationPhotos ?? mock.investigationPhotos!;
   const position         = state?.position          ?? mock.position!;
 
   return (
@@ -165,12 +197,12 @@ const TrackReport = () => {
           </div>
         </div>
 
-        {/* RIGHT — submission photos */}
+        {/* RIGHT — submission photos (first photo only) */}
         <div className="col-md-6">
           <p className="fw-bold" style={{ fontSize: 13 }}>
             PHOTOS SUBMITTED AT SERVICE REQUEST CREATION
           </p>
-          <PhotoGrid photos={photos} placeholder="No photos submitted" />
+          <SinglePhoto photos={photos} />
         </div>
       </div>
 
@@ -197,6 +229,7 @@ const TrackReport = () => {
             </div>
             <button
               className="mt-3"
+              onClick={handleSubmitComment}
               style={{
                 background: "#0f766e", color: "#fff", border: "none",
                 borderRadius: 6, padding: "8px 18px", fontWeight: 600, cursor: "pointer",
@@ -204,6 +237,20 @@ const TrackReport = () => {
             >
               Submit Comment
             </button>
+
+            {postedComments.length > 0 && (
+              <div className="mt-3">
+                {postedComments.map((c) => (
+                  <div key={c.id} className="border rounded p-2 mb-2" style={{ background: "#fff" }}>
+                    <div className="d-flex justify-content-between mb-1">
+                      <span style={{ fontWeight: 600, fontSize: 13 }}>{c.author}</span>
+                      <span style={{ fontSize: 11, color: "#888" }}>{c.time}</span>
+                    </div>
+                    <p style={{ fontSize: 13, margin: 0 }}>{c.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </>
         ) : (
           <p style={{ fontSize: 14, color: "#555", margin: 0 }}>
@@ -212,11 +259,11 @@ const TrackReport = () => {
         )}
       </div>
 
-      {/* Investigation photos */}
-      {investigationPhotos.length > 0 && (
+      {/* All submitted photos grid */}
+      {photos.length > 0 && (
         <div className="mb-3">
-          <p className="fw-bold" style={{ fontSize: 13 }}>VIEW INVESTIGATION PHOTOS</p>
-          <PhotoGrid photos={investigationPhotos} placeholder="" />
+          <p className="fw-bold mb-2" style={{ fontSize: 13 }}>VIEW INVESTIGATION PHOTOS</p>
+          <PhotoGridAll photos={photos} />
         </div>
       )}
 
