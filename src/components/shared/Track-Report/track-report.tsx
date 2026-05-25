@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import "./track-report.css";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ReportState {
@@ -11,8 +12,8 @@ interface ReportState {
   description?: string;
   location?: string;
   submittedDate?: string;
-  photos?: string[];              // base64 / URLs from form submission
-  investigationPhotos?: string[]; // added post-investigation
+  photos?: string[];
+  investigationPhotos?: string[];
   position?: { lat: number; lng: number };
 }
 
@@ -105,33 +106,23 @@ const MAX_COMMENT = 255;
 const mapContainerStyle = { width: "100%", height: "300px" };
 
 const SinglePhoto = ({ photos }: { photos: string[] }) => (
-  <div
-    className="border rounded"
-    style={{ height: 220, background: photos.length ? "#f8f8f8" : "#0b3d5c", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
-  >
+  <div className={`border rounded tr-single-photo${photos.length === 0 ? " tr-single-photo--empty" : ""}`}>
     {photos.length > 0 ? (
-      <img src={photos[0]} alt="submitted-photo" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }} />
+      <img src={photos[0]} alt="submitted-photo" />
     ) : (
-      <div style={{ textAlign: "center", color: "#fff" }}>
-        <i className="bx bx-camera" style={{ fontSize: 52 }}></i>
-        <p style={{ fontSize: 12, marginTop: 6 }}>No photos submitted</p>
+      <div className="tr-no-photo-placeholder">
+        <i className="bx bx-camera"></i>
+        <p>No photos submitted</p>
       </div>
     )}
   </div>
 );
 
 const PhotoGridAll = ({ photos }: { photos: string[] }) => (
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+  <div className="tr-photo-grid">
     {photos.map((src, i) => (
-      <div
-        key={i}
-        style={{ background: "#f8f8f8", border: "1px solid #ddd", borderRadius: 6, height: 180, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
-      >
-        <img
-          src={src}
-          alt={`photo-${i}`}
-          style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }}
-        />
+      <div key={i} className="tr-photo-grid-item">
+        <img src={src} alt={`photo-${i}`} />
       </div>
     ))}
   </div>
@@ -163,24 +154,21 @@ const TrackReport = () => {
     setComment("");
   };
 
-  const service = state?.service ?? "Report";
-  const mock = MOCK_BY_SERVICE[service] ?? DEFAULT_MOCK;
-
-  const referenceNumber  = state?.referenceNumber  ?? mock.referenceNumber!;
-  const status           = state?.status           ?? mock.status!;
-  const description      = state?.description      ?? mock.description!;
-  const location         = state?.location         ?? mock.location!;
-  const submittedDate    = state?.submittedDate     ?? mock.submittedDate!;
-  const photos           = state?.photos            ?? mock.photos!;
-  const position         = state?.position          ?? mock.position!;
+  const service       = state?.service        ?? "Report";
+  const mock          = MOCK_BY_SERVICE[service] ?? DEFAULT_MOCK;
+  const referenceNumber = state?.referenceNumber ?? mock.referenceNumber!;
+  const status        = state?.status          ?? mock.status!;
+  const description   = state?.description     ?? mock.description!;
+  const location      = state?.location        ?? mock.location!;
+  const submittedDate = state?.submittedDate    ?? mock.submittedDate!;
+  const photos        = state?.photos           ?? mock.photos!;
+  const position      = state?.position         ?? mock.position!;
 
   return (
     <div className="container mt-3 mb-4">
       {/* Header */}
       <h5 className="fw-bold mb-2">Report Summary</h5>
-      <p style={{ color: "#0f766e", fontWeight: 600 }}>
-        Reference Number: {referenceNumber}
-      </p>
+      <p className="tr-ref-number">Reference Number: {referenceNumber}</p>
 
       <div className="row">
         {/* LEFT — details */}
@@ -189,7 +177,7 @@ const TrackReport = () => {
             <p><strong>Status:</strong>&nbsp; {status}</p>
             <p>
               <strong>Service:</strong>&nbsp;
-              <span style={{ color: "#0f766e" }}>{service}</span>
+              <span className="tr-service-name">{service}</span>
             </p>
             <p><strong>Description:</strong>&nbsp; {description}</p>
             <p><strong>Location:</strong>&nbsp; {location}</p>
@@ -197,9 +185,9 @@ const TrackReport = () => {
           </div>
         </div>
 
-        {/* RIGHT — submission photos (first photo only) */}
+        {/* RIGHT — first submitted photo */}
         <div className="col-md-6">
-          <p className="fw-bold" style={{ fontSize: 13 }}>
+          <p className="fw-bold tr-section-label">
             PHOTOS SUBMITTED AT SERVICE REQUEST CREATION
           </p>
           <SinglePhoto photos={photos} />
@@ -210,50 +198,42 @@ const TrackReport = () => {
       <div className="border rounded p-3 mb-3 bg-light">
         {user ? (
           <>
-            <label className="fw-semibold mb-2" style={{ fontSize: 14 }}>
+            <label className="fw-semibold mb-2 d-block tr-comment-label">
               Your comment
             </label>
-            <div style={{ position: "relative" }}>
+            <div className="tr-comment-wrap">
               <textarea
-                className="form-control"
+                className="form-control tr-comment-textarea"
                 rows={3}
                 maxLength={MAX_COMMENT}
                 placeholder="Type your comment here...."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                style={{ resize: "none", paddingRight: 36 }}
               />
-              <span style={{ position: "absolute", top: 6, right: 10, fontSize: 11, color: "#888" }}>
+              <span className="tr-comment-counter">
                 {MAX_COMMENT - comment.length}
               </span>
             </div>
-            <button
-              className="mt-3"
-              onClick={handleSubmitComment}
-              style={{
-                background: "#0f766e", color: "#fff", border: "none",
-                borderRadius: 6, padding: "8px 18px", fontWeight: 600, cursor: "pointer",
-              }}
-            >
+            <button className="mt-3 tr-submit-btn" onClick={handleSubmitComment}>
               Submit Comment
             </button>
 
             {postedComments.length > 0 && (
               <div className="mt-3">
                 {postedComments.map((c) => (
-                  <div key={c.id} className="border rounded p-2 mb-2" style={{ background: "#fff" }}>
+                  <div key={c.id} className="border rounded p-2 mb-2 tr-comment-bg">
                     <div className="d-flex justify-content-between mb-1">
-                      <span style={{ fontWeight: 600, fontSize: 13 }}>{c.author}</span>
-                      <span style={{ fontSize: 11, color: "#888" }}>{c.time}</span>
+                      <span className="tr-comment-author">{c.author}</span>
+                      <span className="tr-comment-time">{c.time}</span>
                     </div>
-                    <p style={{ fontSize: 13, margin: 0 }}>{c.text}</p>
+                    <p className="tr-comment-text">{c.text}</p>
                   </div>
                 ))}
               </div>
             )}
           </>
         ) : (
-          <p style={{ fontSize: 14, color: "#555", margin: 0 }}>
+          <p className="tr-guest-msg">
             You must be logged in to post or view comments.
           </p>
         )}
@@ -262,7 +242,7 @@ const TrackReport = () => {
       {/* All submitted photos grid */}
       {photos.length > 0 && (
         <div className="mb-3">
-          <p className="fw-bold mb-2" style={{ fontSize: 13 }}>VIEW INVESTIGATION PHOTOS</p>
+          <p className="fw-bold mb-2 tr-section-label">VIEW INVESTIGATION PHOTOS</p>
           <PhotoGridAll photos={photos} />
         </div>
       )}

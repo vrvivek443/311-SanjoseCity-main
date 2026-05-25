@@ -1,0 +1,46 @@
+.fu-description {
+  font-size: 13px;
+}
+
+.fu-preview-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.fu-preview-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.fu-dropzone {
+  background: #f0f7fa;
+  border-color: #b0d4e0 !important;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.fu-dropzone.fu-dragging {
+  background: #e8f4f8;
+}
+
+.fu-camera-icon {
+  font-size: 32px;
+  color: #198bb3;
+}
+
+.fu-choose-link {
+  color: #198bb3;
+  cursor: pointer;
+}
+
+.fu-max-size {
+  font-size: 13px;
+}
+
+.fu-error {
+  font-size: 13px;
+}

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import "./file-upload.css";
 
 interface FileUploadProps {
   files: File[];
@@ -60,20 +61,14 @@ const FileUpload = ({
     <div>
       {label && <label className="fw-bold mb-1 d-block">{label}</label>}
       {description && (
-        <p className="text-muted mb-2" style={{ fontSize: "13px" }}>{description}</p>
+        <p className={`text-muted mb-2 fu-description`}>{description}</p>
       )}
 
       {previews.length > 0 && (
         <div className="d-flex flex-wrap gap-3 mb-3">
           {previews.map((src, i) => (
-            <div key={i} style={{ position: "relative", width: "80px", height: "80px" }}>
-              <img
-                src={src}
-                alt="preview"
-                width={80}
-                height={80}
-                style={{ objectFit: "cover", borderRadius: "6px" }}
-              />
+            <div key={i} className="fu-preview-wrap">
+              <img src={src} alt="preview" className="fu-preview-img" />
               <button type="button" className="new-button" onClick={() => removeFile(i)}>
                 ×
               </button>
@@ -83,12 +78,7 @@ const FileUpload = ({
       )}
 
       <div
-        className="border rounded p-4 text-center mb-1"
-        style={{
-          background: isDragging ? "#e8f4f8" : "#f0f7fa",
-          borderColor: "#b0d4e0",
-          cursor: "pointer",
-        }}
+        className={`border rounded p-4 text-center mb-1 fu-dropzone${isDragging ? " fu-dragging" : ""}`}
         onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={(e) => {
@@ -98,11 +88,9 @@ const FileUpload = ({
         }}
         onClick={() => fileInputRef.current?.click()}
       >
-        <div style={{ fontSize: "32px", color: "#198bb3" }}>📷</div>
+        <div className="fu-camera-icon">📷</div>
         <p className="fw-bold mb-1">Drag file here or</p>
-        <span style={{ color: "#198bb3", textDecoration: "underline", cursor: "pointer" }}>
-          choose from folder
-        </span>
+        <span className="fu-choose-link">choose from folder</span>
         <input
           ref={fileInputRef}
           type="file"
@@ -113,11 +101,11 @@ const FileUpload = ({
         />
       </div>
 
-      <p className="text-end text-muted mb-1" style={{ fontSize: "13px" }}>
+      <p className="text-end text-muted mb-1 fu-max-size">
         Max {maxSizeMB} MB attachments
       </p>
 
-      {error && <p className="text-danger mb-1" style={{ fontSize: "13px" }}>{error}</p>}
+      {error && <p className="text-danger mb-1 fu-error">{error}</p>}
     </div>
   );
 };
