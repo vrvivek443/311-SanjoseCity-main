@@ -173,7 +173,17 @@ const Graffiti = () => {
           ]}
           primaryText="Track my report"
           secondaryText="Return home"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Graffiti",
+                location: data.address,
+                description: data.additionalInfo || "Tell Us More",
+                photos: images.map((f) => URL.createObjectURL(f)),
+                position: data.position,
+              },
+            })
+          }
           onSecondary={() => navigate("/")}
         />
       </>

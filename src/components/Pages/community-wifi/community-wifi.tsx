@@ -150,7 +150,17 @@ const CommunityWifi = () => {
             "At this time your report will be used to inform future service upgrades."
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Community WiFi",
+                location: data.wifiLocation,
+                description: `Area: ${data.area} | Device: ${data.deviceType}`,
+                photos: [],
+                position: data.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />

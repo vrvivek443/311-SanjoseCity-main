@@ -176,7 +176,17 @@ const Potholes = () => {
             "Please note: When you report a pothole that does not mean that the entire street will be re-paved.",
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Pothole",
+                location: data.address,
+                description: data.additionalInfo || "Tell Us More",
+                photos: images.map((f) => URL.createObjectURL(f)),
+                position: data.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />

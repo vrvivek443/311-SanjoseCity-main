@@ -196,7 +196,17 @@ const IllegalDumping = () => {
             "The RAPID (Removing and Preventing Illegal Dumping) team will respond to reports of illegal dumping within 5 business days.",
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Illegal Dumping",
+                location: data.address,
+                description: data.additionalInfo || "Tell Us More",
+                photos: images.map((f) => URL.createObjectURL(f)),
+                position: data.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />

@@ -218,7 +218,17 @@ const StreetlightOutage = () => {
             </>,
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Streetlight Outage",
+                location: data.address,
+                description: data.additionalInfo || "Tell Us More",
+                photos: images.map((f) => URL.createObjectURL(f)),
+                position: data.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />

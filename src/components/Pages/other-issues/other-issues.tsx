@@ -189,7 +189,17 @@ const OtherIssues = () => {
             "We usually respond within 2 business days.",
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Other Issues",
+                location: data.address,
+                description: data.additionalInfo || "Tell Us More",
+                photos: images.map((f) => URL.createObjectURL(f)),
+                position: data.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />

@@ -126,7 +126,17 @@ const IllegalFirework = () => {
             "We'll also email you a confirmation.",
           ]}
           primaryText="Track my report"
-          onPrimary={() => navigate("/track-report")}
+          onPrimary={() =>
+            navigate("/track-report", {
+              state: {
+                service: "Illegal Fireworks",
+                location: sectionOneData.address,
+                description: sectionOneData.additionalInfo || "Tell Us More",
+                photos: [],
+                position: sectionOneData.position,
+              },
+            })
+          }
           secondaryText="Return home"
           onSecondary={() => navigate("/")}
         />
